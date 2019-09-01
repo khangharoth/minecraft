@@ -31,7 +31,7 @@ public class Level {
 	private int depth;
 	public int monsterDensity = 8;
 
-	public List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> entities = new ArrayList<Entity>();
 	private Comparator<Entity> spriteSorter = (e0, e1) -> {
 		if (e1.y < e0.y) return +1;
 		if (e1.y > e0.y) return -1;
