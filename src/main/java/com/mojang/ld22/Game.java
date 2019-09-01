@@ -21,14 +21,10 @@ import java.io.InputStream;
 
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
-    private static final String NAME = "Minicraft";
-    private static final int HEIGHT = 300;
-    private static final int WIDTH = 350;
-    private static final int SCALE = 3;
     public int gameTime = 0;
     public Player player;
     public Menu menu;
-    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage image = new BufferedImage(Constants.WIDTH, Constants.HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
     private boolean running = false;
     private Screen screen;
@@ -46,11 +42,11 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(String[] args) {
         Game game = new Game();
-        game.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        game.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        game.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        game.setMinimumSize(Constants.GAME_DIM);
+        game.setMaximumSize(Constants.GAME_DIM);
+        game.setPreferredSize(Constants.GAME_DIM);
 
-        JFrame frame = new JFrame(Game.NAME);
+        JFrame frame = new JFrame("Minicraft");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(game, BorderLayout.CENTER);
@@ -123,8 +119,8 @@ public class Game extends Canvas implements Runnable {
         try {
             InputStream resourceAsStream = Game.class.getClassLoader().getResourceAsStream("res/icons.png");
             SpriteSheet sheet = new SpriteSheet(ImageIO.read(resourceAsStream));
-            screen = new Screen(WIDTH, HEIGHT, sheet);
-            lightScreen = new Screen(WIDTH, HEIGHT, sheet);
+            screen = new Screen(Constants.WIDTH, Constants.HEIGHT, sheet);
+            lightScreen = new Screen(Constants.WIDTH, Constants.HEIGHT, sheet);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -245,15 +241,15 @@ public class Game extends Canvas implements Runnable {
         for (int y = 0; y < screen.h; y++) {
             for (int x = 0; x < screen.w; x++) {
                 int cc = screen.pixels[x + y * screen.w];
-                if (cc < 255) pixels[x + y * WIDTH] = colors[cc];
+                if (cc < 255) pixels[x + y * Constants.WIDTH] = colors[cc];
             }
         }
 
         Graphics g = bs.getDrawGraphics();
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        int ww = WIDTH * 3;
-        int hh = HEIGHT * 3;
+        int ww = Constants.WIDTH * 3;
+        int hh = Constants.HEIGHT * 3;
         int xo = (getWidth() - ww) / 2;
         int yo = (getHeight() - hh) / 2;
         g.drawImage(image, xo, yo, ww, hh, null);
@@ -297,8 +293,8 @@ public class Game extends Canvas implements Runnable {
 
     private void renderFocusNagger() {
         String msg = "Click to focus!";
-        int xx = (WIDTH - msg.length() * 8) / 2;
-        int yy = (HEIGHT - 8) / 2;
+        int xx = (Constants.WIDTH - msg.length() * 8) / 2;
+        int yy = (Constants.HEIGHT - 8) / 2;
         int w = msg.length();
         int h = 1;
 
