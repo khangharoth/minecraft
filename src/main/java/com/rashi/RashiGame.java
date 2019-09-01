@@ -8,6 +8,7 @@ public class RashiGame extends Canvas implements Runnable {
     private static final int HEIGHT = 300;
     private static final int WIDTH = 350;
     private static final int SCALE = 3;
+    private int[] colors = new int[256];
 
     @Override
     public void run() {
