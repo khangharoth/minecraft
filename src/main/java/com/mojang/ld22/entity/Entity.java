@@ -59,7 +59,7 @@ public class Entity {
 		return true;
 	}
 
-	protected boolean move2(int xa, int ya) {
+    boolean move2(int xa, int ya) {
 		if (xa != 0 && ya != 0) throw new IllegalArgumentException("Move2 can only move along one axis at a time!");
 
 		int xto0 = ((x) - xr) >> 4;
