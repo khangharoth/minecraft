@@ -25,15 +25,11 @@ public class Game extends Canvas implements Runnable {
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
     private boolean running = false;
     private Screen screen;
-    private Screen lightScreen;
     private InputHandler input = new InputHandler(this);
     private int[] colors = new int[256];
     private int tickCount = 0;
     private Level level;
-    private Level[] levels = new Level[5];
-    private int currentLevel = 3;
     private int playerDeadTime;
-    private int pendingLevelChange;
     private int wonTimer = 0;
     private boolean hasWon = false;
 
@@ -66,34 +62,17 @@ public class Game extends Canvas implements Runnable {
         new Thread(this).start();
     }
 
-    public void stop() {
-        running = false;
-    }
-
     public void resetGame() {
         playerDeadTime = 0;
         wonTimer = 0;
         gameTime = 0;
         hasWon = false;
 
-        levels = new Level[5];
-        currentLevel = 3;
-
-        levels[4] = new Level(128, 128, 1, null);
-        levels[3] = new Level(128, 128, 0, levels[4]);
-        levels[2] = new Level(128, 128, -1, levels[3]);
-        levels[1] = new Level(128, 128, -2, levels[2]);
-        levels[0] = new Level(128, 128, -3, levels[1]);
-
-        level = levels[currentLevel];
+        level = new Level(0, null);
         player = new Player(this, input);
         player.findStartPos(level);
 
         level.add(player);
-
-        for (int i = 0; i < 5; i++) {
-            levels[i].trySpawn(5000);
-        }
     }
 
     private void init() {
@@ -117,7 +96,6 @@ public class Game extends Canvas implements Runnable {
 
         SpriteSheet sheet = new SpriteSheet();
         screen = new Screen(Constants.WIDTH, Constants.HEIGHT, sheet);
-        lightScreen = new Screen(Constants.WIDTH, Constants.HEIGHT, sheet);
 
 
         resetGame();
@@ -171,11 +149,6 @@ public class Game extends Canvas implements Runnable {
                     if (playerDeadTime > 60) {
                         setMenu(new DeadMenu());
                     }
-                } else {
-                    if (pendingLevelChange != 0) {
-                        setMenu(new LevelTransitionMenu(pendingLevelChange));
-                        pendingLevelChange = 0;
-                    }
                 }
                 if (wonTimer > 0) {
                     if (--wonTimer == 0) {
@@ -186,16 +159,6 @@ public class Game extends Canvas implements Runnable {
                 Tile.tickCount++;
             }
         }
-    }
-
-    public void changeLevel(int dir) {
-        level.remove(player);
-        currentLevel += dir;
-        level = levels[currentLevel];
-        player.x = (player.x >> 4) * 16 + 8;
-        player.y = (player.y >> 4) * 16 + 8;
-        level.add(player);
-
     }
 
     public void render() {
@@ -212,22 +175,11 @@ public class Game extends Canvas implements Runnable {
         if (yScroll < 16) yScroll = 16;
         if (xScroll > level.w * 16 - screen.w - 16) xScroll = level.w * 16 - screen.w - 16;
         if (yScroll > level.h * 16 - screen.h - 16) yScroll = level.h * 16 - screen.h - 16;
-        if (currentLevel > 3) {
-            int col = Color.get(20, 20, 121, 121);
-            for (int y = 0; y < 14; y++)
-                for (int x = 0; x < 24; x++) {
-                    screen.render(x * 8 - ((xScroll / 4) & 7), y * 8 - ((yScroll / 4) & 7), 0, col, 0);
-                }
-        }
+
 
         level.renderBackground(screen, xScroll, yScroll);
         level.renderSprites(screen, xScroll, yScroll);
 
-        if (currentLevel < 3) {
-            lightScreen.clear(0);
-            level.renderLight(lightScreen, xScroll, yScroll);
-            screen.overlay(lightScreen, xScroll, yScroll);
-        }
 
         renderGui();
 
@@ -311,10 +263,6 @@ public class Game extends Canvas implements Runnable {
         } else {
             Font.draw(msg, screen, xx, yy, Color.get(5, 555, 555, 555));
         }
-    }
-
-    public void scheduleLevelChange(int dir) {
-        pendingLevelChange = dir;
     }
 
     public void won() {

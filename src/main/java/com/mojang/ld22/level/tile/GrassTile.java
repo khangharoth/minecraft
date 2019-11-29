@@ -13,7 +13,7 @@ import com.mojang.ld22.level.Level;
 import com.mojang.ld22.sound.Sound;
 
 public class GrassTile extends Tile {
-	public GrassTile(int id) {
+	GrassTile(int id) {
 		super(id);
 		connectsToGrass = true;
 	}
@@ -50,17 +50,6 @@ public class GrassTile extends Tile {
 	public void tick(Level level, int xt, int yt) {
 		if (random.nextInt(40) != 0) return;
 
-		int xn = xt;
-		int yn = yt;
-
-		if (random.nextBoolean())
-			xn += random.nextInt(2) * 2 - 1;
-		else
-			yn += random.nextInt(2) * 2 - 1;
-
-		if (level.getTile(xn, yn) == Tile.dirt) {
-			level.setTile(xn, yn, this, 0);
-		}
 	}
 
 	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir) {

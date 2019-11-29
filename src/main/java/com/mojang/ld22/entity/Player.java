@@ -32,7 +32,6 @@ public class Player extends Mob {
 	public int staminaRechargeDelay;
 	public int score;
 	public int maxStamina = 10;
-	private int onStairDelay;
 	public int invulnerableTime = 0;
 
 	public Player(Game game, InputHandler input) {
@@ -50,17 +49,6 @@ public class Player extends Mob {
 		super.tick();
 
 		if (invulnerableTime > 0) invulnerableTime--;
-		Tile onTile = level.getTile(x >> 4, y >> 4);
-		if (onTile == Tile.stairsDown || onTile == Tile.stairsUp) {
-			if (onStairDelay == 0) {
-				changeLevel((onTile == Tile.stairsUp) ? 1 : -1);
-				onStairDelay = 10;
-				return;
-			}
-			onStairDelay = 10;
-		} else {
-			if (onStairDelay > 0) onStairDelay--;
-		}
 
 		if (stamina <= 0 && staminaRechargeDelay == 0 && staminaRecharge == 0) {
 			staminaRechargeDelay = 40;
@@ -346,10 +334,6 @@ public class Player extends Mob {
 		if (cost > stamina) return false;
 		stamina -= cost;
 		return true;
-	}
-
-	public void changeLevel(int dir) {
-		game.scheduleLevelChange(dir);
 	}
 
 	public int getLightRadius() {
