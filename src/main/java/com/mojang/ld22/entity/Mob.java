@@ -8,7 +8,7 @@ import com.mojang.ld22.sound.Sound;
 
 public class Mob extends Entity {
 	int walkDist = 0;
-	protected int dir = 0;
+    int dir = 0;
 	int hurtTime = 0;
 	int xKnockback, yKnockback;
 	public int maxHealth = 10;
@@ -69,7 +69,7 @@ public class Mob extends Entity {
 		return super.move(xa, ya);
 	}
 
-	protected boolean isSwimming() {
+    boolean isSwimming() {
 		Tile tile = level.getTile(x >> 4, y >> 4);
 		return tile == Tile.water || tile == Tile.lava;
 	}
