@@ -1,20 +1,11 @@
 package com.mojang.ld22.level;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-
-import com.mojang.ld22.entity.AirWizard;
-import com.mojang.ld22.entity.Entity;
-import com.mojang.ld22.entity.Mob;
-import com.mojang.ld22.entity.Player;
-import com.mojang.ld22.entity.Slime;
-import com.mojang.ld22.entity.Zombie;
+import com.mojang.ld22.entity.*;
 import com.mojang.ld22.gfx.Screen;
 import com.mojang.ld22.level.levelgen.LevelGen;
 import com.mojang.ld22.level.tile.Tile;
+
+import java.util.*;
 
 public class Level {
     public int w = 128;
@@ -24,11 +15,9 @@ public class Level {
     public int sandColor = 550;
     public int monsterDensity = 8;
     public Player player;
-    private Random random = new Random();
     private byte[] tiles;
     private byte[] data;
     private List<Entity>[] entitiesInTiles;
-    private int depth;
     private List<Entity> entities = new ArrayList<Entity>();
     private Comparator<Entity> spriteSorter = (e0, e1) -> {
         if (e1.y < e0.y) return +1;
@@ -42,7 +31,6 @@ public class Level {
         if (level < 0) {
             dirtColor = 222;
         }
-        this.depth = level;
         byte[][] maps;
 
         if (level == 1) {
@@ -138,31 +126,6 @@ public class Level {
         screen.setOffset(0, 0);
     }
 
-    public void renderLight(Screen screen, int xScroll, int yScroll) {
-        int xo = xScroll >> 4;
-        int yo = yScroll >> 4;
-        int w = (screen.w + 15) >> 4;
-        int h = (screen.h + 15) >> 4;
-
-        screen.setOffset(xScroll, yScroll);
-        int r = 4;
-        for (int y = yo - r; y <= h + yo + r; y++) {
-            for (int x = xo - r; x <= w + xo + r; x++) {
-                if (x < 0 || y < 0 || x >= this.w || y >= this.h) continue;
-                List<Entity> entities = entitiesInTiles[x + y * this.w];
-                for (int i = 0; i < entities.size(); i++) {
-                    Entity e = entities.get(i);
-                    // e.render(screen);
-                    int lr = e.getLightRadius();
-                    if (lr > 0) screen.renderLight(e.x - 1, e.y - 4, lr * 8);
-                }
-                int lr = getTile(x, y).getLightRadius(this, x, y);
-                if (lr > 0) screen.renderLight(x * 16 + 8, y * 16 + 8, lr * 8);
-            }
-        }
-        screen.setOffset(0, 0);
-    }
-
     private void sortAndRender(Screen screen, List<Entity> list) {
         Collections.sort(list, spriteSorter);
         for (int i = 0; i < list.size(); i++) {
@@ -202,13 +165,6 @@ public class Level {
         insertEntity(entity.x >> 4, entity.y >> 4, entity);
     }
 
-    public void remove(Entity e) {
-        entities.remove(e);
-        int xto = e.x >> 4;
-        int yto = e.y >> 4;
-        removeEntity(xto, yto, e);
-    }
-
     private void insertEntity(int x, int y, Entity e) {
         if (x < 0 || y < 0 || x >= w || y >= h) return;
         entitiesInTiles[x + y * w].add(e);
@@ -219,33 +175,16 @@ public class Level {
         entitiesInTiles[x + y * w].remove(e);
     }
 
-    public void trySpawn(int count) {
-        for (int i = 0; i < count; i++) {
-            Mob mob;
+    private void trySpawn() {
+        Mob mob = new Slime(1);
 
-            int minLevel = 1;
-            int maxLevel = 1;
-            if (depth < 0) {
-                maxLevel = (-depth) + 1;
-            }
-            if (depth > 0) {
-                minLevel = maxLevel = 4;
-            }
-
-            int lvl = random.nextInt(maxLevel - minLevel + 1) + minLevel;
-            if (random.nextInt(2) == 0)
-                mob = new Slime(lvl);
-            else
-                mob = new Zombie(lvl);
-
-            if (mob.findStartPos(this)) {
-                this.add(mob);
-            }
+        if (mob.findStartPos(this)) {
+            this.add(mob);
         }
     }
 
     public void tick() {
-        trySpawn(1);
+        trySpawn();
 
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);

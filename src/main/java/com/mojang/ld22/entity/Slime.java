@@ -51,11 +51,6 @@ public class Slime extends Mob {
 	protected void die() {
 		super.die();
 
-		int count = random.nextInt(2) + 1;
-		for (int i = 0; i < count; i++) {
-			level.add(new ItemEntity(new ResourceItem(Resource.slime), x + random.nextInt(11) - 5, y + random.nextInt(11) - 5));
-		}
-
 		if (level.player != null) {
 			level.player.score += 25*lvl;
 		}

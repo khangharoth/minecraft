@@ -1,17 +1,15 @@
 package com.mojang.ld22.entity;
 
 import com.mojang.ld22.gfx.Screen;
-import com.mojang.ld22.item.FurnitureItem;
-import com.mojang.ld22.item.PowerGloveItem;
 
 public class Furniture extends Entity {
 	private int pushTime = 0;
 	private int pushDir = -1;
-	public int col, sprite;
+    int col, sprite;
 	public String name;
 	private Player shouldTake;
 
-	public Furniture(String name) {
+    Furniture(String name) {
 		this.name = name;
 		xr = 3;
 		yr = 3;
@@ -19,11 +17,6 @@ public class Furniture extends Entity {
 
 	public void tick() {
 		if (shouldTake != null) {
-			if (shouldTake.activeItem instanceof PowerGloveItem) {
-				remove();
-				shouldTake.inventory.add(0, shouldTake.activeItem);
-				shouldTake.activeItem = new FurnitureItem(this);
-			}
 			shouldTake = null;
 		}
 		if (pushDir == 0) move(0, +1);

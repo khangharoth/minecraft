@@ -7,12 +7,9 @@ import com.mojang.ld22.sound.Sound;
 
 public class ItemEntity extends Entity {
 	private int lifeTime;
-	protected int walkDist = 0;
-	protected int dir = 0;
-	public int hurtTime = 0;
-	protected int xKnockback, yKnockback;
-	public double xa, ya, za;
-	public double xx, yy, zz;
+	private int hurtTime = 0;
+	private double xa, ya, za;
+	private double xx, yy, zz;
 	public Item item;
 	private int time = 0;
 
@@ -78,7 +75,7 @@ public class ItemEntity extends Entity {
 		if (time > 30) entity.touchItem(this);
 	}
 
-	public void take(Player player) {
+	void take(Player player) {
 		Sound.pickup.play();
 		player.score++;
 		item.onTake(this);

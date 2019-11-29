@@ -1,23 +1,17 @@
 package com.mojang.ld22.entity;
 
-import java.util.List;
-
 import com.mojang.ld22.Game;
 import com.mojang.ld22.InputHandler;
 import com.mojang.ld22.entity.particle.TextParticle;
 import com.mojang.ld22.gfx.Color;
 import com.mojang.ld22.gfx.Screen;
-import com.mojang.ld22.item.FurnitureItem;
 import com.mojang.ld22.item.Item;
-import com.mojang.ld22.item.PowerGloveItem;
-import com.mojang.ld22.item.ResourceItem;
-import com.mojang.ld22.item.ToolItem;
-import com.mojang.ld22.item.ToolType;
-import com.mojang.ld22.item.resource.Resource;
 import com.mojang.ld22.level.Level;
 import com.mojang.ld22.level.tile.Tile;
 import com.mojang.ld22.screen.InventoryMenu;
 import com.mojang.ld22.sound.Sound;
+
+import java.util.List;
 
 public class Player extends Mob {
     public Game game;
@@ -298,7 +292,7 @@ public class Player extends Mob {
         invulnerableTime = 30;
     }
 
-    public void gameWon() {
+    void gameWon() {
         level.player.invulnerableTime = 60 * 5;
         game.won();
     }
