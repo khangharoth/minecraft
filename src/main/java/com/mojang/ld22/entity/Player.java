@@ -25,14 +25,14 @@ public class Player extends Mob {
 
 	public Game game;
 	public Inventory inventory = new Inventory();
-	public Item attackItem;
+	private Item attackItem;
 	public Item activeItem;
 	public int stamina;
-	public int staminaRecharge;
+	private int staminaRecharge;
 	public int staminaRechargeDelay;
 	public int score;
-	public int maxStamina = 10;
-	public int invulnerableTime = 0;
+	private int maxStamina = 10;
+	private int invulnerableTime = 0;
 
 	public Player(Game game, InputHandler input) {
 		this.game = game;
