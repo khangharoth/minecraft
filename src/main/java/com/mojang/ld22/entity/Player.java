@@ -41,8 +41,6 @@ public class Player extends Mob {
 		y = 24;
 		stamina = maxStamina;
 
-		inventory.add(new FurnitureItem(new Workbench()));
-		inventory.add(new PowerGloveItem());
 	}
 
 	public void tick() {
