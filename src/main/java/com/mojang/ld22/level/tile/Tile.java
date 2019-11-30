@@ -23,15 +23,10 @@ public class Tile {
     public static Tile sand = new SandTile(6);
     public static Tile cactus = new CactusTile(7);
     public static Tile hole = new HoleTile(8);
-    public static Tile treeSapling = new SaplingTile(9, grass, tree);
-    public static Tile cactusSapling = new SaplingTile(10, sand, cactus);
+
     public static Tile farmland = new FarmTile(11);
-    public static Tile wheat = new WheatTile(12);
     public static Tile lava = new LavaTile(13);
     public static Tile stairsDown = new StairsTile(14, false);
-    public static Tile stairsUp = new StairsTile(15, true);
-    public static Tile infiniteFall = new InfiniteFallTile(16);
-    public static Tile cloud = new CloudTile(17);
     public final byte id;
     protected Random random = new Random();
     boolean connectsToGrass = false;
@@ -65,9 +60,6 @@ public class Tile {
         return false;
     }
 
-    public boolean use(Level level, int xt, int yt, Player player, int attackDir) {
-        return false;
-    }
 
     public boolean connectsToLiquid() {
         return connectsToWater || connectsToLava;

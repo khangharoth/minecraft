@@ -31,44 +31,10 @@ public class Level {
         if (level < 0) {
             dirtColor = 222;
         }
-        byte[][] maps;
-
-        if (level == 1) {
-            dirtColor = 444;
-        }
-        if (level == 0)
-            maps = LevelGen.createAndValidateTopMap(w, h);
-        else if (level < 0) {
-            maps = LevelGen.createAndValidateUndergroundMap(w, h, -level);
-            monsterDensity = 4;
-        } else {
-            maps = LevelGen.createAndValidateSkyMap(w, h); // Sky level
-            monsterDensity = 4;
-        }
+        byte[][] maps = LevelGen.createAndValidateTopMap(w, h);
 
         tiles = maps[0];
         data = maps[1];
-
-        if (parentLevel != null) {
-            for (int y = 0; y < h; y++)
-                for (int x = 0; x < w; x++) {
-                    if (parentLevel.getTile(x, y) == Tile.stairsDown) {
-
-                        setTile(x, y, Tile.stairsUp, 0);
-
-                        setTile(x - 1, y, Tile.dirt, 0);
-                        setTile(x + 1, y, Tile.dirt, 0);
-                        setTile(x, y - 1, Tile.dirt, 0);
-                        setTile(x, y + 1, Tile.dirt, 0);
-                        setTile(x - 1, y - 1, Tile.dirt, 0);
-                        setTile(x - 1, y + 1, Tile.dirt, 0);
-                        setTile(x + 1, y - 1, Tile.dirt, 0);
-                        setTile(x + 1, y + 1, Tile.dirt, 0);
-
-                    }
-
-                }
-        }
 
         entitiesInTiles = new ArrayList[w * h];
         for (int i = 0; i < w * h; i++) {

@@ -48,34 +48,11 @@ public class GrassTile extends Tile {
 	}
 
 	public void tick(Level level, int xt, int yt) {
-		if (random.nextInt(40) != 0) return;
 
 	}
 
 	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir) {
 		if (item instanceof ToolItem) {
-			ToolItem tool = (ToolItem) item;
-			if (tool.type == ToolType.shovel) {
-				if (player.payStamina(4 - tool.level)) {
-					level.setTile(xt, yt, Tile.dirt, 0);
-					Sound.monsterHurt.play();
-					if (random.nextInt(5) == 0) {
-						level.add(new ItemEntity(new ResourceItem(Resource.seeds), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
-						return true;
-					}
-				}
-			}
-			if (tool.type == ToolType.hoe) {
-				if (player.payStamina(4 - tool.level)) {
-					Sound.monsterHurt.play();
-					if (random.nextInt(5) == 0) {
-						level.add(new ItemEntity(new ResourceItem(Resource.seeds), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
-						return true;
-					}
-					level.setTile(xt, yt, Tile.farmland, 0);
-					return true;
-				}
-			}
 		}
 		return false;
 
