@@ -50,10 +50,6 @@ public class ResourceItem extends Item {
 	}
 
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir) {
-		if (resource.interactOn(tile, level, xt, yt, player, attackDir)) {
-			count--;
-			return true;
-		}
 		return false;
 	}
 
