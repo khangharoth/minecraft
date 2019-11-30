@@ -11,8 +11,8 @@ import com.mojang.ld22.level.tile.Tile;
 public class Entity {
 	protected final Random random = new Random();
 	public int x, y;
-	public int xr = 6;
-	public int yr = 6;
+    int xr = 6;
+    int yr = 6;
 	public boolean removed;
 	public Level level;
 
@@ -124,11 +124,4 @@ public class Entity {
 		return item.interact(player, this, attackDir);
 	}
 
-	public boolean use(Player player, int attackDir) {
-		return false;
-	}
-
-	public int getLightRadius() {
-		return 0;
-	}
 }

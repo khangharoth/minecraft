@@ -1,19 +1,20 @@
 package com.mojang.ld22.level.tile;
 
-import java.util.Random;
-
 import com.mojang.ld22.entity.Entity;
 import com.mojang.ld22.entity.Mob;
 import com.mojang.ld22.entity.Player;
 import com.mojang.ld22.gfx.Screen;
 import com.mojang.ld22.item.Item;
-import com.mojang.ld22.item.resource.Resource;
 import com.mojang.ld22.level.Level;
+
+import java.util.Random;
 
 public class Tile {
     public static int tickCount = 0;
     public static Tile[] tiles = new Tile[256];
     public static Tile grass = new GrassTile(0);
+
+
     public static Tile rock = new RockTile(1);
     public static Tile water = new WaterTile(2);
     public static Tile flower = new FlowerTile(3);
@@ -31,9 +32,6 @@ public class Tile {
     public static Tile stairsUp = new StairsTile(15, true);
     public static Tile infiniteFall = new InfiniteFallTile(16);
     public static Tile cloud = new CloudTile(17);
-    public static Tile hardRock = new HardRockTile(18);
-    public static Tile ironOre = new OreTile(19, Resource.ironOre);
-    public static Tile cloudCactus = new CloudCactusTile(22);
     public final byte id;
     protected Random random = new Random();
     boolean connectsToGrass = false;
@@ -52,10 +50,6 @@ public class Tile {
 
     public boolean mayPass(Level level, int x, int y, Entity e) {
         return true;
-    }
-
-    public int getLightRadius(Level level, int x, int y) {
-        return 0;
     }
 
     public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir) {

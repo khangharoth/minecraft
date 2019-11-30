@@ -8,7 +8,6 @@ import com.mojang.ld22.gfx.Screen;
 import com.mojang.ld22.item.Item;
 import com.mojang.ld22.level.Level;
 import com.mojang.ld22.level.tile.Tile;
-import com.mojang.ld22.screen.InventoryMenu;
 import com.mojang.ld22.sound.Sound;
 
 import java.util.List;
@@ -86,35 +85,9 @@ public class Player extends Mob {
                 attack();
             }
         }
-        if (input.menu.clicked) {
-            if (!use()) {
-                game.setMenu(new InventoryMenu(this));
-            }
-        }
+
         if (attackTime > 0) attackTime--;
 
-    }
-
-    private boolean use() {
-        int yo = -2;
-        if (dir == 0 && use(x - 8, y + 4 + yo, x + 8, y + 12 + yo)) return true;
-        if (dir == 1 && use(x - 8, y - 12 + yo, x + 8, y - 4 + yo)) return true;
-        if (dir == 3 && use(x + 4, y - 8 + yo, x + 12, y + 8 + yo)) return true;
-        if (dir == 2 && use(x - 12, y - 8 + yo, x - 4, y + 8 + yo)) return true;
-
-        int xt = x >> 4;
-        int yt = (y + yo) >> 4;
-        int r = 12;
-        if (attackDir == 0) yt = (y + r + yo) >> 4;
-        if (attackDir == 1) yt = (y - r + yo) >> 4;
-        if (attackDir == 2) xt = (x - r) >> 4;
-        if (attackDir == 3) xt = (x + r) >> 4;
-
-        if (xt >= 0 && yt >= 0 && xt < level.w && yt < level.h) {
-            if (level.getTile(xt, yt).use(level, xt, yt, this, attackDir)) return true;
-        }
-
-        return false;
     }
 
     private void attack() {
@@ -143,15 +116,6 @@ public class Player extends Mob {
         }
 
 
-    }
-
-    private boolean use(int x0, int y0, int x1, int y1) {
-        List<Entity> entities = level.getEntities(x0, y0, x1, y1);
-        for (int i = 0; i < entities.size(); i++) {
-            Entity e = entities.get(i);
-            if (e != this) if (e.use(this, attackDir)) return true;
-        }
-        return false;
     }
 
 
@@ -262,10 +226,6 @@ public class Player extends Mob {
         return true;
     }
 
-    public int getLightRadius() {
-        int r = 2;
-        return r;
-    }
 
     protected void die() {
         super.die();

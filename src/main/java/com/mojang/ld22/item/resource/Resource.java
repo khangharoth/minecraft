@@ -16,33 +16,23 @@ public class Resource {
     public static Resource cactusFlower = new PlantableResource("Cactus", 4 + baseValue, Color.get(-1, 10, 40, 50), Tile.cactusSapling, Tile.sand);
     public static Resource seeds = new PlantableResource("Seeds", 5 + baseValue, Color.get(-1, 10, 40, 50), Tile.wheat, Tile.farmland);
     public static Resource wheat = new Resource("Wheat", 6 + baseValue, Color.get(-1, 110, 330, 550));
-    public static Resource bread = new FoodResource("Bread", 8 + baseValue, Color.get(-1, 110, 330, 550), 2, 5);
     public static Resource apple = new FoodResource("Apple", 9 + baseValue, Color.get(-1, 100, 300, 500), 1, 5);
 
     public static Resource coal = new Resource("COAL", 10 + baseValue, Color.get(-1, 000, 111, 111));
-    public static Resource ironOre = new Resource("I.ORE", 10 + baseValue, Color.get(-1, 100, 322, 544));
-    public static Resource goldOre = new Resource("G.ORE", 10 + baseValue, Color.get(-1, 110, 440, 553));
-    public static Resource ironIngot = new Resource("IRON", 11 + baseValue, Color.get(-1, 100, 322, 544));
-    public static Resource goldIngot = new Resource("GOLD", 11 + baseValue, Color.get(-1, 110, 330, 553));
+//    public static Resource cloud = new PlantableResource("cloud", 2 + baseValue, Color.get(-1, 222, 555, 444), Tile.cloud, Tile.infiniteFall);
 
-    public static Resource slime = new Resource("SLIME", 10 + baseValue, Color.get(-1, 10, 30, 50));
-    public static Resource glass = new Resource("glass", 12 + baseValue, Color.get(-1, 555, 555, 555));
-    public static Resource cloth = new Resource("cloth", 1 + baseValue, Color.get(-1, 25, 252, 141));
-    public static Resource cloud = new PlantableResource("cloud", 2 + baseValue, Color.get(-1, 222, 555, 444), Tile.cloud, Tile.infiniteFall);
-    public static Resource gem = new Resource("gem", 13 + baseValue, Color.get(-1, 101, 404, 545));
+    public final String name;
+    public final int sprite;
+    public final int color;
 
-	public final String name;
-	public final int sprite;
-	public final int color;
+    public Resource(String name, int sprite, int color) {
+        if (name.length() > 6) throw new RuntimeException("Name cannot be longer than six characters!");
+        this.name = name;
+        this.sprite = sprite;
+        this.color = color;
+    }
 
-	public Resource(String name, int sprite, int color) {
-		if (name.length() > 6) throw new RuntimeException("Name cannot be longer than six characters!");
-		this.name = name;
-		this.sprite = sprite;
-		this.color = color;
-	}
-
-	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir) {
-		return false;
-	}
+    public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir) {
+        return false;
+    }
 }

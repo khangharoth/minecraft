@@ -91,7 +91,7 @@ public class LevelGen {
             }
             if (count[Tile.rock.id & 0xff] < 100) continue;
             if (count[Tile.dirt.id & 0xff] < 100) continue;
-            if (count[(Tile.ironOre.id & 0xff) + depth - 1] < 20) continue;
+//            if (count[(Tile.ironOre.id & 0xff) + depth - 1] < 20) continue;
             if (depth < 3) if (count[Tile.stairsDown.id & 0xff] < 2) continue;
 
             return result;
@@ -300,11 +300,11 @@ public class LevelGen {
                 for (int j = 0; j < 30; j++) {
                     int xx = x + random.nextInt(5) - random.nextInt(5);
                     int yy = y + random.nextInt(5) - random.nextInt(5);
-                    if (xx >= r && yy >= r && xx < w - r && yy < h - r) {
-                        if (map[xx + yy * w] == Tile.rock.id) {
-                            map[xx + yy * w] = (byte) ((Tile.ironOre.id & 0xff) + depth - 1);
-                        }
-                    }
+//                    if (xx >= r && yy >= r && xx < w - r && yy < h - r) {
+//                        if (map[xx + yy * w] == Tile.rock.id) {
+//                            map[xx + yy * w] = (byte) ((Tile.ironOre.id & 0xff) + depth - 1);
+//                        }
+//                    }
                 }
             }
         }
@@ -370,7 +370,7 @@ public class LevelGen {
                     if (map[xx + yy * w] != Tile.cloud.id) continue stairsLoop;
                 }
 
-            map[x + y * w] = Tile.cloudCactus.id;
+
         }
 
         int count = 0;
